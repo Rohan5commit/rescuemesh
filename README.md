@@ -201,7 +201,7 @@ See [`docs/demo-script.md`](docs/demo-script.md) for a complete 2-4 minute narra
 
 ## Future Work
 
-- Real-time voice capture with on-device STT
+- ~~Real-time voice capture with on-device STT~~ (done: MediaRecorder + QVAC transcribe)
 - Camera integration for live incident documentation
 - Offline maps integration
 - Multi-language support for international teams
