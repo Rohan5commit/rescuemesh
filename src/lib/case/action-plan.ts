@@ -75,7 +75,6 @@ export async function generateActionPlan(
   // Get relevant evidence for safety warnings
   const evidence = await searchCaseAndKnowledge(
     `safety warnings ${assessment?.category || 'emergency'} ${(assessment?.keyHazards || []).join(' ')}`,
-    caseData.inputs.map((i) => ({ content: i.content, id: i.id })),
       caseData.id,
       { topK: 4 }
   );

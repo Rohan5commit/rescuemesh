@@ -6,8 +6,8 @@
 //     like "what are the hazards in the building" via semantic similarity
 //   - No keyword matching needed — QVAC embeddings handle this natively
 
-import { loadModel, ragSearch } from '@qvac/sdk';
-import { LLM_MODEL } from '../qvac/models';
+import { ragSearch } from '@qvac/sdk';
+import { initLLM } from '../qvac/inference';
 import type { RetrievedEvidence } from '../schemas';
 import { v4 as uuid } from 'uuid';
 
@@ -24,7 +24,7 @@ export async function searchKnowledge(
   query: string,
   options?: SearchOptions
 ): Promise<RetrievedEvidence[]> {
-  const modelId = await loadModel({ modelSrc: LLM_MODEL, modelType: 'llm' });
+  const modelId = await initLLM();
   const topK = options?.topK ?? 5;
 
   const results = await ragSearch({
@@ -62,7 +62,7 @@ export async function searchCaseInputs(
   caseId: string,
   options?: SearchOptions
 ): Promise<RetrievedEvidence[]> {
-  const modelId = await loadModel({ modelSrc: LLM_MODEL, modelType: 'llm' });
+  const modelId = await initLLM();
   const topK = options?.topK ?? 5;
 
   try {
@@ -97,7 +97,6 @@ export async function searchCaseInputs(
  */
 export async function searchCaseAndKnowledge(
   query: string,
-  caseInputs: Array<{ id: string; content: string }>,
   caseId: string,
   options?: SearchOptions
 ): Promise<RetrievedEvidence[]> {

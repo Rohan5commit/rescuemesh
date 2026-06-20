@@ -32,15 +32,3 @@ export async function ingestCaseInput(
   });
 }
 
-/**
- * Ingest all case inputs (batch). Used when loading an existing case
- * or re-ingesting after model reload.
- */
-export async function ingestAllCaseInputs(
-  caseId: string,
-  inputs: IncidentInput[]
-): Promise<void> {
-  for (const input of inputs) {
-    await ingestCaseInput(caseId, input);
-  }
-}

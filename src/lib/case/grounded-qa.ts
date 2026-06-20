@@ -19,7 +19,6 @@ export async function askRescueMesh(
   // Retrieve relevant evidence
   const evidence = await searchCaseAndKnowledge(
     question,
-    caseData.inputs.map((i) => ({ content: i.content, id: i.id })),
       caseData.id,
       { topK: 6 }
   );

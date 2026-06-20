@@ -67,7 +67,6 @@ export async function assessIncident(
   // Retrieve relevant evidence from knowledge base
   const evidence = await searchCaseAndKnowledge(
     `${parsed.category || 'emergency'} ${parsed.title || caseData.title} ${(parsed.keyHazards || []).join(' ')}`,
-    caseData.inputs.map((i) => ({ content: i.content, id: i.id })),
       caseData.id,
       { topK: 6 }
   );
