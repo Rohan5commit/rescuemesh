@@ -9,7 +9,6 @@ import { LLM_MODEL } from './models';
 
 type InferenceResult = {
   text: string;
-  tokensPerSecond?: number;
   durationMs: number;
 };
 
@@ -54,7 +53,7 @@ export async function generate(
   const result = completion({
     modelId,
     history,
-    stream: false,
+    stream: true,
     temperature: options?.temperature ?? 0.3,
     maxTokens: options?.maxTokens ?? 2048,
   });

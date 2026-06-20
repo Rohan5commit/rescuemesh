@@ -3,7 +3,7 @@ import {
   LayoutDashboard, FileInput, ClipboardList, MessageCircleQuestion,
   Search, Share2, Cpu, BookOpen, Download, Shield, Radio,
 } from 'lucide-react';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 
 type Screen = 'dashboard' | 'intake' | 'action-plan' | 'ask' | 'evidence' | 'p2p' | 'architecture' | 'export';
 

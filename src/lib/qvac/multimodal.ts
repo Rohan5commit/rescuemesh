@@ -28,7 +28,7 @@ export async function analyzeImage(
           ],
         },
       ],
-      stream: false,
+      stream: true,
       maxTokens: 1024,
     });
 
