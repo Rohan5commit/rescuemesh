@@ -1,0 +1,19 @@
+{
+  "id": "pack-flood-relief",
+  "name": "Flood Relief & Distribution",
+  "description": "Protocols for flood emergency response including evacuation, relief distribution, and post-flood recovery operations.",
+  "version": "1.0.0",
+  "createdAt": "2026-01-15T00:00:00.000Z",
+  "documents": [
+    {
+      "id": "doc-flood-protocol",
+      "title": "Flood Relief Distribution Protocol",
+      "content": "FLOOD RELIEF DISTRIBUTION PROTOCOL\n\n1. DISTRIBUTION POINT SETUP\n- Select elevated ground, minimum 500 feet from waterway\n- Ensure vehicle access for supply trucks\n- Establish perimeter with barricades or tape\n- Set up registration desk at entrance\n- Deploy shade structures and seating if available\n\n2. PRIORITIZED DISTRIBUTION\n- Priority 1: Medical supplies and first aid\n- Priority 2: Clean drinking water (1 gallon/person/day minimum)\n- Priority 3: Emergency food rations\n- Priority 4: Blankets, tarps, and shelter materials\n- Priority 5: Hygiene kits and sanitation supplies\n\n3. ACCOUNTABILITY\n- Register all recipients with name, household size, and needs\n- Photograph or scan identification if available\n- Issue distribution cards for tracking\n- Maintain daily inventory logs\n- Report shortages to logistics coordinator immediately\n\n4. SAFETY WARNINGS\n- Never walk or drive through floodwater (6 inches can knock you down, 2 feet can float a vehicle)\n- Beware of downed power lines near water\n- Watch for displaced wildlife including snakes\n- Do not use flood-damaged electrical equipment\n- Boil or treat all water from unknown sources\n- Wear protective boots and gloves at all times",
+      "metadata": {
+        "source": "rescue-mesh-official",
+        "category": "flood",
+        "lastVerified": "2026-01-15"
+      }
+    }
+  ]
+}

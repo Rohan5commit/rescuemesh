@@ -1,0 +1,29 @@
+{
+  "id": "pack-fire-safety",
+  "name": "Fire Safety & Emergency Response",
+  "description": "Standard operating procedures for fire emergencies, including initial response, assessment, suppression, and post-incident procedures.",
+  "version": "1.0.0",
+  "createdAt": "2026-01-15T00:00:00.000Z",
+  "documents": [
+    {
+      "id": "doc-fire-sop",
+      "title": "Fire Emergency Response SOP",
+      "content": "FIRE EMERGENCY RESPONSE STANDARD OPERATING PROCEDURE\n\n1. INITIAL RESPONSE\n- Upon detection of fire or smoke, activate nearest fire alarm pull station\n- Evacuate all personnel from the immediate area using designated escape routes\n- Call 911 and report: location, type of fire (if known), number of people unaccounted for\n- Meet at designated assembly point for headcount\n- Do NOT re-enter the building until authorized by fire department or incident commander\n\n2. ASSESSMENT\n- Size-up the fire: location, extent, type (A/B/C/D), spread rate\n- Check for extension to walls, ceiling, attic spaces\n- Identify victims and rescue if safe to do so\n- Note any hazardous materials in the area\n- Determine structural integrity before entry\n\n3. SUPPRESSION (PASS Method)\n- Pull the pin on the fire extinguisher\n- Aim at the BASE of the fire, not the flames\n- Squeeze the handle to discharge\n- Sweep from side to side\n- Maintain safe distance: minimum 6 feet\n- Use appropriate extinguisher class for fire type\n\n4. SAFETY WARNINGS\n- Never fight a fire larger than a waste basket\n- Always have an escape route at your back\n- Be aware of backdraft indicators: smoke-stained windows, heat, low air pressure at doors\n- Wear proper PPE: SCBA, turnout gear, helmet\n- Account for all personnel every 15 minutes",
+      "metadata": {
+        "source": "rescue-mesh-official",
+        "category": "fire",
+        "lastVerified": "2026-01-15"
+      }
+    },
+    {
+      "id": "doc-smoke-inhalation",
+      "title": "Smoke Inhalation First Aid",
+      "content": "SMOKE INHALATION FIRST AID PROTOCOL\n\n1. Remove the victim from the smoke-filled environment immediately\n2. Call 911 if not already done\n3. Check airway, breathing, circulation (ABCs)\n4. If the victim is unconscious but breathing, place in recovery position\n5. If the victim is not breathing, begin CPR immediately\n6. Administer high-flow oxygen if available (non-rebreather mask at 15L/min)\n7. Monitor for signs of respiratory distress: wheezing, stridor, cyanosis\n8. Watch for delayed symptoms: coughing, chest pain, confusion, headache\n\nCRITICAL SIGNS REQUIRING IMMEDIATE MEDICAL ATTENTION:\n- Burns around nose or mouth\n- Singed facial hair\n- Black or soot-filled sputum\n- Difficulty breathing or hoarse voice\n- Altered mental status or confusion\n\nNOTE: Smoke inhalation can cause delayed pulmonary edema. Even if the victim seems fine initially, they MUST be transported to a hospital for evaluation.",
+      "metadata": {
+        "source": "rescue-mesh-official",
+        "category": "fire",
+        "lastVerified": "2026-01-15"
+      }
+    }
+  ]
+}

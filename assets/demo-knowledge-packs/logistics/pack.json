@@ -1,0 +1,19 @@
+{
+  "id": "pack-logistics",
+  "name": "Field Logistics & Disruption Response",
+  "description": "Protocols for managing supply chain disruptions, field logistics, and resource allocation during emergencies.",
+  "version": "1.0.0",
+  "createdAt": "2026-01-15T00:00:00.000Z",
+  "documents": [
+    {
+      "id": "doc-logistics-response",
+      "title": "Field Logistics Disruption Response",
+      "content": "FIELD LOGISTICS DISRUPTION RESPONSE PROTOCOL\n\n1. ASSESSMENT\n- Identify the nature of the disruption (transportation, supply, communication)\n- Determine the scope: local, regional, or widespread\n- Estimate duration of disruption\n- Identify critical supply needs that must be maintained\n\n2. IMMEDIATE ACTIONS\n- Activate backup supply routes if primary routes are compromised\n- Contact alternative suppliers within 100-mile radius\n- Implement inventory rationing for critical supplies\n- Establish communication with all field units\n\n3. RESOURCE ALLOCATION\n- Triage supplies: critical vs. non-critical\n- Redistribute from low-priority to high-priority areas\n- Maintain minimum 72-hour emergency reserves at all times\n- Document all resource movements and expenditures\n\n4. COORDINATION\n- Liaise with neighboring agencies and mutual aid partners\n- Participate in joint logistics calls every 4 hours\n- Report status to incident command every 2 hours\n- Maintain shared logistics dashboard with real-time inventory\n\n5. RECOVERY\n- Once primary routes are restored, replenish emergency reserves\n- Conduct after-action review within 72 hours\n- Update logistics plans based on lessons learned\n- File reimbursement claims within 30 days",
+      "metadata": {
+        "source": "rescue-mesh-official",
+        "category": "logistics",
+        "lastVerified": "2026-01-15"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "pack-medical-emergency",
+  "name": "Medical Emergency Response",
+  "description": "Protocols for campus and field medical emergencies, triage procedures, and first aid guidelines.",
+  "version": "1.0.0",
+  "createdAt": "2026-01-15T00:00:00.000Z",
+  "documents": [
+    {
+      "id": "doc-medical-response",
+      "title": "Campus Medical Emergency Response",
+      "content": "CAMPUS MEDICAL EMERGENCY RESPONSE PROTOCOL\n\n1. SCENE SAFETY\n- Assess scene for ongoing hazards before approach\n- Ensure PPE is available and donned\n- Establish safe perimeter around patient\n- Remove bystanders from immediate area\n\n2. PRIMARY ASSESSMENT (ABCDE)\n- Airway: Check for obstructions, perform head-tilt chin-lift\n- Breathing: Look, listen, feel. Check respiratory rate and quality\n- Circulation: Check pulse (carotid, radial), skin color, capillary refill\n- Disability: AVPU scale (Alert, Voice, Pain, Unresponsive)\n- Exposure: Full body check for injuries, maintain body temperature\n\n3. TRIAGE (START System)\n- GREEN (Minor): Walking wounded, can wait\n- YELLOW (Delayed): Serious but not immediately life-threatening\n- RED (Immediate): Life-threatening, requires immediate intervention\n- BLACK (Deceased/Expectant): Non-survivable injuries\n\n4. EMERGENCY CONTACTS\n- Campus Security: ext. 5555\n- Local EMS: 911\n- Poison Control: 1-800-222-1222\n- Campus Health Center: ext. 2200\n\n5. DOCUMENTATION\n- Record time of patient contact\n- Document vital signs every 5 minutes\n- Note all interventions performed\n- Transfer care to EMS with verbal and written report",
+      "metadata": {
+        "source": "rescue-mesh-official",
+        "category": "medical",
+        "lastVerified": "2026-01-15"
+      }
+    }
+  ]
+}

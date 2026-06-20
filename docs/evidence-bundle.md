@@ -27,8 +27,8 @@
 - All inference through QVAC SDK (`@qvac/sdk`)
 - Zero cloud API calls
 - Local RAG with QVAC embeddings
-- P2P via Holepunch DHT
-- Delegated compute via QVAC provider/consumer model
+- P2P via loopback + real serialization (Hyperswarm in production)
+- Delegated compute via real QVAC SDK delegate option
 
 
 ## Demo Mode Note
