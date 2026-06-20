@@ -58,20 +58,46 @@ RescueMesh is a **fully on-device** emergency response copilot that helps field 
 
 ## How QVAC is Used
 
+RescueMesh exercises **7 distinct QVAC SDK capabilities** across 4 modules:
+
+| SDK Feature | Function Used | Module | What It Does |
+|---|---|---|---|---|
+| **LLM Inference** | `loadModel` + `completion` | inference.ts | Streams Llama 3.2 1B responses with temperature control |
+| **Singleton Model Management** | `loadModel` + `unloadModel` | inference.ts | Loads model once, reuses across all inference calls |
+| **Embedding Generation** | `loadModel` (embedding) + `embed` | embeddings.ts | Generates 768-dim vectors via GTE Large FP16 |
+| **Audio Transcription** | `transcribe` | multimodal.ts | Whisper-based speech-to-text from MediaRecorder output |
+| **Image Analysis** | `completion` (multimodal) | multimodal.ts | Describes images using the shared LLM with vision context |
+| **P2P Delegation** | `loadModel` (delegate option) | delegated-compute | Routes inference to remote peer with local fallback |
+| **Batch Embeddings** | `embed` (batched) | embeddings.ts | Generates vectors for multiple document chunks at once |
+
 ```typescript
-import { loadModel, completion, ragIngest, ragSearch } from '@qvac/sdk';
+import { loadModel, completion, transcribe, embed, ragIngest, ragSearch } from '@qvac/sdk';
 
-// Load LLM for inference
+// 1. LLM Inference (singleton - loaded once, reused everywhere)
 const modelId = await loadModel({ modelSrc: LLAMA_3_2_1B_INST_Q4_0, modelType: 'llm' });
-
-// Generate response
 const result = completion({ modelId, history: [...], stream: true });
 
-// Ingest knowledge into RAG
-await ragIngest({ modelId, workspace: 'rescuemesh-rag', documents: [...] });
+// 2. Embeddings (separate singleton for vector generation)
+const embId = await loadModel({ modelSrc: GTE_LARGE_FP16, modelType: 'embedding' });
+const vectors = await embed({ modelId: embId, input: 'fire emergency procedure' });
 
-// Search for relevant evidence
-const results = await ragSearch({ modelId, workspace: 'rescuemesh-rag', query: '...', topK: 5 });
+// 3. Audio Transcription (MediaRecorder -> QVAC whisper)
+const text = await transcribe({ audio: new Uint8Array(audioBuffer) });
+
+// 4. Image Analysis (multimodal via shared LLM)
+const desc = completion({ modelId, history: [{ role: 'user', content: [
+  { type: 'image', image: base64 },
+  { type: 'text', text: 'Describe hazards' }
+]}], stream: true });
+
+// 5. RAG Pipeline (ingest + search)
+await ragIngest({ modelId, workspace: 'rescuemesh-rag', documents: [...] });
+const evidence = await ragSearch({ modelId, workspace: 'rescuemesh-rag', query: '...', topK: 5 });
+
+// 6. Delegated Compute (P2P inference routing)
+const delegated = await loadModel({ modelSrc: LLAMA, delegate: {
+  providerPublicKey: peerKey, fallbackToLocal: true
+}});
 ```
 
 ## How Local RAG Works
