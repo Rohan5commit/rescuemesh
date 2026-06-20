@@ -1,0 +1,17 @@
+{
+  "id": "demo-logistics-001",
+  "title": "Field Logistics Disruption",
+  "description": "Simulated demo case: Supply convoy delayed by road closure.",
+  "severity": "medium",
+  "status": "active",
+  "category": "logistics",
+  "reportedAt": "2024-04-20T06:45:00Z",
+  "inputs": [
+    {
+      "id": "input-text-1",
+      "type": "text",
+      "content": "Main supply route Highway 9 blocked by fallen trees after last night's storm. Convoy carrying medical supplies and food rations delayed. Estimated 8-hour delay minimum. Two alternate routes available but add 3 hours each.",
+      "metadata": { "createdAt": "2024-04-20T07:00:00Z" }
+    }
+  ]
+}

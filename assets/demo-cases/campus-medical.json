@@ -1,0 +1,17 @@
+{
+  "id": "demo-medical-001",
+  "title": "Campus Medical Emergency",
+  "description": "Simulated demo case: Student collapsed in campus library.",
+  "severity": "critical",
+  "status": "active",
+  "category": "medical",
+  "reportedAt": "2024-03-05T11:20:00Z",
+  "inputs": [
+    {
+      "id": "input-text-1",
+      "type": "text",
+      "content": "Student collapsed in main reading room of campus library. Not responding to verbal stimuli. Someone has started CPR. No obvious injuries visible. Building is crowded with exam-week students.",
+      "metadata": { "createdAt": "2024-03-05T11:22:00Z" }
+    }
+  ]
+}

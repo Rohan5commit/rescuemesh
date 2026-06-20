@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #dc2626;
+    --color-surface: #102a43;
+    --color-surface-elevated: #1a3a52;
+    --color-border: #2d4a62;
+  }
+
+  body {
+    @apply bg-navy-950 text-gray-100 font-sans;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  * {
+    @apply border-navy-700;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-rescue-600 hover:bg-rescue-700 text-white font-medium px-4 py-2 rounded-lg
+           transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-navy-700 hover:bg-navy-600 text-gray-200 font-medium px-4 py-2 rounded-lg
+           border border-navy-600 transition-all duration-150 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply hover:bg-navy-800 text-gray-300 px-3 py-2 rounded-lg transition-colors duration-150;
+  }
+
+  .card {
+    @apply bg-navy-900 border border-navy-700 rounded-xl p-4 shadow-lg;
+  }
+
+  .card-elevated {
+    @apply bg-navy-800 border border-navy-600 rounded-xl p-5 shadow-xl;
+  }
+
+  .input-field {
+    @apply bg-navy-800 border border-navy-600 rounded-lg px-3 py-2 text-gray-100
+           placeholder:text-navy-400 focus:outline-none focus:ring-2 focus:ring-rescue-500/50
+           focus:border-rescue-500 transition-all duration-150;
+  }
+
+  .badge-critical {
+    @apply bg-red-900/50 text-red-300 border border-red-700/50 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-high {
+    @apply bg-orange-900/50 text-orange-300 border border-orange-700/50 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-medium {
+    @apply bg-yellow-900/50 text-yellow-300 border border-yellow-700/50 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-low {
+    @apply bg-green-900/50 text-green-300 border border-green-700/50 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-unknown {
+    @apply bg-navy-700 text-navy-300 border border-navy-600 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .severity-critical { @apply border-l-4 border-l-red-500; }
+  .severity-high { @apply border-l-4 border-l-orange-500; }
+  .severity-medium { @apply border-l-4 border-l-yellow-500; }
+  .severity-low { @apply border-l-4 border-l-green-500; }
+  .severity-unknown { @apply border-l-4 border-l-navy-500; }
+
+  .pulse-dot {
+    @apply w-2 h-2 rounded-full bg-rescue-500 animate-pulse;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #334e68 transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #334e68;
+    border-radius: 3px;
+  }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.2s ease-out;
+}

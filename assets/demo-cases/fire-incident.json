@@ -1,0 +1,23 @@
+{
+  "id": "demo-fire-001",
+  "title": "Fire in Building 3",
+  "description": "Simulated demo case: Fire reported in Building 3 with smoke on second floor and people trapped on third floor.",
+  "severity": "high",
+  "status": "active",
+  "category": "fire",
+  "reportedAt": "2024-01-15T14:30:00Z",
+  "inputs": [
+    {
+      "id": "input-text-1",
+      "type": "text",
+      "content": "Smoke visible from second floor of Building 3. Strong smell of burning plastic. Two people visible on third floor balcony calling for help. Fire trucks have not yet arrived.",
+      "metadata": { "createdAt": "2024-01-15T14:32:00Z" }
+    },
+    {
+      "id": "input-voice-1",
+      "type": "voice",
+      "content": "Voice report from field observer: I can see thick grey smoke coming from the second floor windows of Building 3. The fire alarm is not sounding. I count at least two people on the third floor balcony. No emergency vehicles on scene yet.",
+      "metadata": { "duration": 22, "createdAt": "2024-01-15T14:35:00Z" }
+    }
+  ]
+}
