@@ -30,7 +30,7 @@ what runs in demo mode, and what is planned for production.
 | RAG Ingest | `ragIngest` (per-pack and per-case workspaces) | ✅ Working |
 | Image Analysis | `completion` (multimodal via shared LLM) | ✅ Working |
 | Batch Embeddings | `embed` (batched, demonstration API) | ✅ Working |
-| Semantic Search | cosine similarity + QVAC embeddings | ✅ Working |
+| Semantic Search | cosine similarity + QVAC embeddings | ✅ Working *(demo API, not wired into UI)* |
 | Export/Reporting | Template-based incident reports | ✅ Working |
 | Knowledge Packs | 5 real emergency SOP docs in JSON assets | ✅ Working |
 
