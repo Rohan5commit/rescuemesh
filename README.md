@@ -197,11 +197,11 @@ See [`docs/demo-script.md`](docs/demo-script.md) for a complete 2-4 minute narra
 - Inference speed depends on local hardware
 - P2P requires nearby devices with the app running
 - Delegated compute requires trust-based key exchange
-- Demo includes simulated voice transcription (MediaRecorder wired, QVAC transcribe simulated)
+- Voice transcription: MediaRecorder pipeline fully wired, requires QVAC whisper model for final output
 
 ## Future Work
 
-- ~~Real-time voice capture with on-device STT~~ (done: MediaRecorder + QVAC transcribe)
+
 - Camera integration for live incident documentation
 - Offline maps integration
 - Multi-language support for international teams
