@@ -49,16 +49,81 @@ export function IntakeScreen() {
     setTextInput('');
   };
 
-  const addVoiceNote = async () => {
-    // In production, this would use Web Audio API + QVAC transcribe
-    const fakeTranscription = 'Simulated voice note: There is smoke visible from the second floor of Building 3. Two people are trapped on the third floor balcony. Fire trucks have not yet arrived. Strong smell of burning plastic.';
-    const newInput = {
-      id: uuid(),
-      caseId: activeCase.id,
-      type: 'voice' as InputType,
-      content: fakeTranscription,
-      metadata: { duration: 15, createdAt: new Date().toISOString() },
-    };
+  const [recording, setRecording] = useState(false);
+  const [transcribing, setTranscribing] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const startTimeRef = useRef<number>(0);
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+        ? 'audio/webm;codecs=opus'
+        : 'audio/webm';
+      const mediaRecorder = new MediaRecorder(stream, { mimeType });
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach((t) => t.stop());
+        setTranscribing(true);
+        try {
+          const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
+          const arrayBuffer = await audioBlob.arrayBuffer();
+          const text = await transcribeAudio(arrayBuffer);
+          const duration = Math.round((Date.now() - startTimeRef.current) / 1000);
+          const newInput = {
+            id: uuid(),
+            caseId: activeCase.id,
+            type: 'voice' as InputType,
+            content: text || '(no speech detected)',
+            metadata: { duration, createdAt: new Date().toISOString() },
+          };
+          updateActiveCase({ inputs: [...activeCase.inputs, newInput] });
+        } catch (err) {
+          console.error('Transcription failed:', err);
+          const newInput = {
+            id: uuid(),
+            caseId: activeCase.id,
+            type: 'voice' as InputType,
+            content: '(Transcription unavailable - QVAC transcribe not available in this environment)',
+            metadata: { duration: 0, createdAt: new Date().toISOString() },
+          };
+          updateActiveCase({ inputs: [...activeCase.inputs, newInput] });
+        } finally {
+          setTranscribing(false);
+        }
+      };
+
+      mediaRecorderRef.current = mediaRecorder;
+      startTimeRef.current = Date.now();
+      mediaRecorder.start();
+      setRecording(true);
+    } catch (err) {
+      console.error('Microphone access denied:', err);
+    }
+  };
+
+  const stopRecording = () => {
+    mediaRecorderRef.current?.stop();
+    setRecording(false);
+  };
+
+  const addVoiceNote = () => {
+    if (transcribing) return;
+    if (recording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
+
+  const voiceButtonText = recording ? 'Stop Recording' : transcribing ? 'Transcribing...' : 'Voice Note';
+  const voiceButtonDisabled = transcribing;
     updateActiveCase({ inputs: [...activeCase.inputs, newInput] });
   };
 
