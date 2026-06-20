@@ -1,4 +1,5 @@
 import { useAppStore } from '../store/useAppStore';
+import { transcribeAudio } from '../lib/qvac';
 import { useState, useRef } from 'react';
 import {
   FileText, Mic, Image, FileUp, Trash2, Brain, Loader2, Plus, ArrowRight,
@@ -111,9 +112,10 @@ export function IntakeScreen() {
           <FileText className="w-6 h-6 text-blue-400 mx-auto mb-1" />
           <span className="text-xs text-gray-300">Text Note</span>
         </button>
-        <button onClick={addVoiceNote} className="card hover:bg-navy-800 transition-colors text-center">
+        <button onClick={addVoiceNote} disabled={voiceButtonDisabled} className="card hover:bg-navy-800 transition-colors text-center disabled:opacity-50">
           <Mic className="w-6 h-6 text-green-400 mx-auto mb-1" />
-          <span className="text-xs text-gray-300">Voice Note</span>
+        {recording && <span className="text-xs text-red-400">● REC</span>}
+          <span className="text-xs text-gray-300">{voiceButtonText}</span>
         </button>
         <button onClick={() => imageInputRef.current?.click()} className="card hover:bg-navy-800 transition-colors text-center">
           <Image className="w-6 h-6 text-purple-400 mx-auto mb-1" />

@@ -48,7 +48,7 @@ RescueMesh is a **fully on-device** emergency response copilot that helps field 
 
 - ✅ **LLM Inference** — Llama 3.2 1B (Q4) via QVAC SDK
 - ✅ **Embeddings** — GTE Large (FP16) for RAG
-- ✅ **Speech Transcription** — via QVAC SDK
+- 🔄 **Speech Transcription** — via QVAC SDK (simulated in demo mode)
 - ✅ **Image Analysis** — Multimodal via QVAC SDK
 - ✅ **RAG System** — Local ingestion, chunking, retrieval
 - ✅ **Vector Search** — Cosine similarity on-device
