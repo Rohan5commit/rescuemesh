@@ -53,18 +53,13 @@ export async function generate(
   const result = completion({
     modelId,
     history,
-    stream: true,
+    stream: false,
     temperature: options?.temperature ?? 0.3,
     maxTokens: options?.maxTokens ?? 2048,
   });
 
-  let text = '';
-  for await (const token of result.tokenStream) {
-    text += token;
-  }
-
   return {
-    text,
+    text: result.text,
     durationMs: performance.now() - start,
   };
 }
