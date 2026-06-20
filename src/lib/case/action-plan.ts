@@ -76,7 +76,8 @@ export async function generateActionPlan(
   const evidence = await searchCaseAndKnowledge(
     `safety warnings ${assessment?.category || 'emergency'} ${(assessment?.keyHazards || []).join(' ')}`,
     caseData.inputs.map((i) => ({ content: i.content, id: i.id })),
-    { topK: 4 }
+      caseData.id,
+      { topK: 4 }
   );
 
   const plan: ActionChecklist = {

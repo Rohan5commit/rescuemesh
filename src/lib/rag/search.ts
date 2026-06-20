@@ -98,6 +98,7 @@ export async function searchCaseInputs(
 export async function searchCaseAndKnowledge(
   query: string,
   caseInputs: Array<{ id: string; content: string }>,
+  caseId: string,
   options?: SearchOptions
 ): Promise<RetrievedEvidence[]> {
   const topK = options?.topK ?? 5;
@@ -106,7 +107,7 @@ export async function searchCaseAndKnowledge(
   const knowledgeResults = await searchKnowledge(query, { topK });
 
   // Search case inputs via RAG (NEW — replaces keyword matching)
-  const caseId = caseInputs[0]?.id?.split('-')[0] ?? 'unknown';
+
   const caseResults = await searchCaseInputs(query, caseId, { topK });
 
   // Merge and rank by score

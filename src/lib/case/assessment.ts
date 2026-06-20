@@ -68,7 +68,8 @@ export async function assessIncident(
   const evidence = await searchCaseAndKnowledge(
     `${parsed.category || 'emergency'} ${parsed.title || caseData.title} ${(parsed.keyHazards || []).join(' ')}`,
     caseData.inputs.map((i) => ({ content: i.content, id: i.id })),
-    { topK: 6 }
+      caseData.id,
+      { topK: 6 }
   );
 
   const assessment: IncidentAssessment = {

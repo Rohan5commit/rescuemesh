@@ -20,7 +20,8 @@ export async function askRescueMesh(
   const evidence = await searchCaseAndKnowledge(
     question,
     caseData.inputs.map((i) => ({ content: i.content, id: i.id })),
-    { topK: 6 }
+      caseData.id,
+      { topK: 6 }
   );
 
   // Build context from evidence
