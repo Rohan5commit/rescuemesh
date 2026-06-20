@@ -3,11 +3,13 @@ import {
   Wifi, WifiOff, Share2, Laptop, Smartphone, Monitor,
   Loader2, Clock, Cpu, ArrowRightLeft,
 } from 'lucide-react';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { useState } from 'react';
 
-const DEVICE_ICON = { laptop: Laptop, mobile: Smartphone, desktop: Monitor };
-const STATUS_COLOR = {
+type DeviceType = 'laptop' | 'mobile' | 'desktop';
+const DEVICE_ICON: Record<DeviceType, typeof Laptop> = { laptop: Laptop, mobile: Smartphone, desktop: Monitor };
+
+const STATUS_COLOR: Record<string, string> = {
   available: 'text-green-400 bg-green-900/30 border-green-700/50',
   busy: 'text-yellow-400 bg-yellow-900/30 border-yellow-700/50',
   offline: 'text-navy-400 bg-navy-800 border-navy-700',
@@ -23,7 +25,6 @@ export function P2PScreen() {
   const computeTasks = useAppStore((s) => s.computeTasks);
   const offloading = useAppStore((s) => s.offloading);
   const createAndDelegateTask = useAppStore((s) => s.createAndDelegateTask);
-  const createAndRunLocally = useAppStore((s) => s.createAndRunLocally);
 
   const [selectedPack, setSelectedPack] = useState('');
   const [selectedPeer, setSelectedPeer] = useState('');
@@ -33,13 +34,13 @@ export function P2PScreen() {
     if (!selectedPack || !selectedPeer) return;
     await sharePack(selectedPack, selectedPeer);
     const lastShare = useAppStore.getState().shareHistory.slice(-1)[0];
-    setShareResult(lastShare ? \`Shared at ${new Date(lastShare.timestamp).toLocaleTimeString()}\` : 'Share initiated');
+    setShareResult(lastShare ? 'Shared at ' + new Date(lastShare.timestamp).toLocaleTimeString() : 'Share initiated');
   };
 
   const handleDelegate = async (type: 'summarization' | 'indexing' | 'analysis') => {
     const peer = peers.find((p) => p.id === selectedPeer && p.status === 'available');
     if (peer) {
-      await createAndDelegateTask(type, \`Heavy ${type} task for incident analysis\`, peer);
+      await createAndDelegateTask(type, 'Heavy ' + type + ' task for incident analysis', peer);
     }
   };
 
@@ -50,7 +51,6 @@ export function P2PScreen() {
         <p className="text-sm text-navy-400">Share knowledge packs and offload compute to nearby devices</p>
       </div>
 
-      {/* Peer Discovery */}
       <div className="card-elevated mb-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold text-white flex items-center gap-2">
@@ -99,7 +99,6 @@ export function P2PScreen() {
         )}
       </div>
 
-      {/* Pack Sharing */}
       <div className="card-elevated mb-6">
         <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
           <Share2 className="w-4 h-4 text-blue-400" /> Knowledge Pack Sharing
@@ -135,7 +134,6 @@ export function P2PScreen() {
         )}
       </div>
 
-      {/* Delegated Compute */}
       <div className="card-elevated mb-6">
         <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
           <Cpu className="w-4 h-4 text-orange-400" /> Delegated Compute

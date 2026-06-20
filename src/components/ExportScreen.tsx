@@ -1,13 +1,15 @@
 import { useAppStore } from '../store/useAppStore';
-import { Download, ClipboardList, FileText, HandMetal, Copy, Check } from 'lucide-react';
+import { Download, ClipboardList, FileText, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
+
+type ExportTab = 'report' | 'checklist' | 'handoff';
 
 export function ExportScreen() {
   const activeCase = useAppStore((s) => s.activeCase);
   const exportReport = useAppStore((s) => s.exportReport);
   const exportChecklist = useAppStore((s) => s.exportChecklist);
   const exportHandoff = useAppStore((s) => s.exportHandoff);
-  const [activeTab, setActiveTab] = useState<'report' | 'checklist' | 'handoff'>('report');
+  const [activeTab, setActiveTab] = useState<ExportTab>('report');
   const [copied, setCopied] = useState(false);
 
   if (!activeCase) {
@@ -18,10 +20,10 @@ export function ExportScreen() {
     : activeTab === 'checklist' ? exportChecklist()
     : exportHandoff();
 
-  const tabs = [
-    { key: 'report' as const, label: 'Incident Report', icon: FileText },
-    { key: 'checklist' as const, label: 'Action Checklist', icon: ClipboardList },
-    { key: 'handoff' as const, label: 'Handoff Note', icon: HandMetal },
+  const tabs: Array<{ key: ExportTab; label: string; icon: typeof FileText }> = [
+    { key: 'report', label: 'Incident Report', icon: FileText },
+    { key: 'checklist', label: 'Action Checklist', icon: ClipboardList },
+    { key: 'handoff', label: 'Handoff Note', icon: Copy },
   ];
 
   const handleCopy = async () => {
@@ -32,7 +34,7 @@ export function ExportScreen() {
 
   const handleDownload = () => {
     const ext = 'md';
-    const filename = \`rescuemesh-\${activeTab}-\${activeCase.id.slice(0, 8)}.\${ext}\`;
+    const filename = 'rescuemesh-' + activeTab + '-' + activeCase.id.slice(0, 8) + '.' + ext;
     const blob = new Blob([content], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -42,6 +44,10 @@ export function ExportScreen() {
     URL.revokeObjectURL(url);
   };
 
+  const tabClass = (isActive: boolean) =>
+    'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ' +
+    (isActive ? 'bg-rescue-600 text-white' : 'bg-navy-800 text-navy-300 hover:bg-navy-700');
+
   return (
     <div className="max-w-4xl animate-slide-in">
       <div className="mb-6">
@@ -49,24 +55,18 @@ export function ExportScreen() {
         <p className="text-sm text-navy-400">Generate clean incident reports for offline distribution</p>
       </div>
 
-      {/* Tabs */}
       <div className="flex gap-2 mb-4">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={\`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors \
-              \${activeTab === tab.key
-                ? 'bg-rescue-600 text-white'
-                : 'bg-navy-800 text-navy-300 hover:bg-navy-700'
-              }\`}
+            className={tabClass(activeTab === tab.key)}
           >
             <tab.icon className="w-4 h-4" /> {tab.label}
           </button>
         ))}
       </div>
 
-      {/* Actions */}
       <div className="flex gap-2 mb-4">
         <button onClick={handleCopy} className="btn-secondary text-sm flex items-center gap-2">
           {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
@@ -77,7 +77,6 @@ export function ExportScreen() {
         </button>
       </div>
 
-      {/* Content Preview */}
       <div className="card-elevated">
         <div className="bg-navy-800 rounded-lg p-4 max-h-[60vh] overflow-y-auto scrollbar-thin">
           <pre className="text-sm text-gray-300 whitespace-pre-wrap font-mono leading-relaxed">
@@ -86,7 +85,6 @@ export function ExportScreen() {
         </div>
       </div>
 
-      {/* Footer badge */}
       <div className="mt-4 text-center">
         <span className="text-[10px] text-navy-500 bg-navy-800 px-3 py-1 rounded-full">
           All exports generated on-device · No cloud services used

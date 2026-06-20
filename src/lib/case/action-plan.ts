@@ -18,21 +18,40 @@ Respond with valid JSON:
 
 Be specific, terse, and practical. Prioritize life safety.`;
 
+interface ParsedPriority {
+  text?: string;
+  priority?: string;
+}
+
+interface ParsedWarning {
+  warning?: string;
+  severity?: string;
+}
+
+interface ParsedPlan {
+  immediatePriorities?: ParsedPriority[];
+  nextSteps?: ParsedPriority[];
+  requiredEquipment?: string[];
+  safetyWarnings?: ParsedWarning[];
+  escalationGuidance?: string;
+  handoffSummary?: string;
+}
+
 function parseActionPlan(raw: string): Partial<ActionChecklist> {
   try {
     const jsonMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, raw];
     const jsonStr = jsonMatch[1]?.trim() || raw.trim();
-    const parsed = JSON.parse(jsonStr);
+    const parsed: ParsedPlan = JSON.parse(jsonStr);
     return {
-      immediatePriorities: (parsed.immediatePriorities || []).map((p: any) => ({
-        id: uuid(), text: p.text, priority: p.priority || 'medium', completed: false,
+      immediatePriorities: (parsed.immediatePriorities || []).map((p) => ({
+        id: uuid(), text: p.text || 'Unnamed priority', priority: p.priority || 'medium', completed: false,
       })),
-      nextSteps: (parsed.nextSteps || []).map((s: any) => ({
-        id: uuid(), text: s.text, priority: s.priority || 'medium', completed: false,
+      nextSteps: (parsed.nextSteps || []).map((s) => ({
+        id: uuid(), text: s.text || 'Unnamed step', priority: s.priority || 'medium', completed: false,
       })),
       requiredEquipment: parsed.requiredEquipment || [],
-      safetyWarnings: (parsed.safetyWarnings || []).map((w: any) => ({
-        id: uuid(), warning: w.warning, severity: w.severity || 'caution',
+      safetyWarnings: (parsed.safetyWarnings || []).map((w) => ({
+        id: uuid(), warning: w.warning || 'Unknown warning', severity: w.severity || 'caution',
       })),
       escalationGuidance: parsed.escalationGuidance || '',
       handoffSummary: parsed.handoffSummary || '',
