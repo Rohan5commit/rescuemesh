@@ -26,6 +26,25 @@ RescueMesh runs as a **single-device local-first application** in demo mode. Som
 | P2P Sharing | Loopback + simulated LAN peers | Hyperswarm DHT |
 | Delegated Compute | Falls back to local execution | QVAC delegate to remote peer |
 
+## Architecture
+
+![RescueMesh Architecture](assets/architecture.svg)
+
+## Screenshots
+
+> **Note:** Run `python3 capture_screenshots.py` while the app is running to capture these screenshots.
+> Screenshots show the dark-themed Tauri desktop interface with sidebar navigation.
+
+| Screen | Description |
+|--------|-------------|
+| ![Dashboard](assets/screenshots/dashboard.png) | **Case Dashboard** — View and manage incident cases |
+| ![Intake](assets/screenshots/intake.png) | **Intake** — Add text, voice, image, and document inputs |
+| ![Action Plan](assets/screenshots/action-plan.png) | **Action Plan** — AI-generated priorities, steps, and safety warnings |
+| ![Ask AI](assets/screenshots/ask.png) | **Ask RescueMesh** — Grounded Q&A with source citations |
+| ![Evidence](assets/screenshots/evidence.png) | **Evidence Inspector** — Trace every recommendation to its source |
+| ![P2P](assets/screenshots/p2p.png) | **P2P & Compute** — Peer discovery and delegated compute |
+| ![Export](assets/screenshots/export.png) | **Export** — Incident report, checklist, and handoff note |
+
 All data serialization, protocol logic, and QVAC SDK integration is **real and functional**. The demo mode simply operates over loopback instead of a real network.
 
 
