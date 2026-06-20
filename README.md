@@ -13,6 +13,22 @@
 </div>
 
 ---
+## Demo Mode Notice
+
+RescueMesh runs as a **single-device local-first application** in demo mode. Some features are demonstrated with loopback or simulated peers to showcase the full architecture:
+
+| Feature | Demo Mode | Production Mode |
+|---------|-----------|------------------|
+| LLM Inference | QVAC SDK (real) | QVAC SDK (real) |
+| RAG Search | QVAC SDK (real) | QVAC SDK (real) |
+| Image Analysis | QVAC SDK (real) | QVAC SDK (real) |
+| Audio Transcription | Simulated (requires mic API) | Whisper via QVAC |
+| P2P Sharing | Loopback + simulated LAN peers | Hyperswarm DHT |
+| Delegated Compute | Falls back to local execution | QVAC delegate to remote peer |
+
+All data serialization, protocol logic, and QVAC SDK integration is **real and functional**. The demo mode simply operates over loopback instead of a real network.
+
+
 
 ## What is RescueMesh?
 
@@ -37,8 +53,8 @@ RescueMesh is a **fully on-device** emergency response copilot that helps field 
 - ✅ **RAG System** — Local ingestion, chunking, retrieval
 - ✅ **Vector Search** — Cosine similarity on-device
 - ✅ **Knowledge Packs** — Emergency SOPs and protocols
-- ✅ **P2P Sharing** — Holepunch DHT
-- ✅ **Delegated Compute** — Offload to nearby peers
+- ✅ **P2P Sharing** — Loopback peer discovery + real serialization (Hyperswarm in production)
+- ✅ **Delegated Compute** — Real QVAC delegate API + local fallback
 
 ## How QVAC is Used
 

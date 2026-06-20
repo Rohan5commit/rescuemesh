@@ -71,3 +71,13 @@ RescueMesh is a fully local-first desktop application built with Tauri 2 (React 
 3. Transfer is direct device-to-device
 4. No central server involved
 5. Model bundles can also be shared for offline distribution
+
+
+## Demo Mode
+
+In single-device demo mode, P2P and delegated compute operate over loopback:
+- Peer discovery returns the local device + simulated LAN peers (clearly labeled)
+- Knowledge pack transfers use the real serialization protocol over loopback
+- Delegated compute attempts the real QVAC delegate API, falling back to local if unavailable
+
+This exercises the full code path while acknowledging the single-device constraint.

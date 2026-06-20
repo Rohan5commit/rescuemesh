@@ -3,4 +3,6 @@ export {
   getDiscoveredPeers,
   shareKnowledgePack,
   getShareHistory,
+  getLocalDeviceId,
+  getTransferStats,
 } from './sharing';

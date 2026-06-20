@@ -29,3 +29,11 @@
 - Local RAG with QVAC embeddings
 - P2P via Holepunch DHT
 - Delegated compute via QVAC provider/consumer model
+
+
+## Demo Mode Note
+
+P2P and delegated compute features operate in demo mode (single-device):
+- **P2P sharing** uses real serialization/deserialization over loopback transport
+- **Delegated compute** uses real QVAC SDK delegate API with automatic local fallback
+- Both features are fully functional in production mode with multiple devices

@@ -46,6 +46,13 @@ export function P2PScreen() {
 
   return (
     <div className="max-w-4xl animate-slide-in">
+      {/* Demo Mode Banner */}
+      <div className="bg-cyan-900/30 border border-cyan-700/50 rounded-lg p-3">
+        <p className="text-cyan-300 text-xs">
+          <span className="font-semibold">Demo Mode:</span> P2P transfers use real serialization over loopback.
+          Simulated LAN peers show multi-device discovery UX. Hyperswarm integration documented in architecture.md.
+        </p>
+      </div>
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-white">P2P & Delegated Compute</h1>
         <p className="text-sm text-navy-400">Share knowledge packs and offload compute to nearby devices</p>
