@@ -10,10 +10,18 @@ export function LandingScreen() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (!title.trim()) return;
+    setModelLoading(true);
+    try {
+      await loadDemoPacks();
+      setModelReady(true);
+    } catch (err) {
+      console.error('Failed to load knowledge packs:', err);
+    } finally {
+      setModelLoading(false);
+    }
     createCase(title, desc);
-    loadDemoPacks();
   };
 
   const features = [
@@ -85,8 +93,8 @@ export function LandingScreen() {
                   className="input-field w-full h-20 resize-none"
                 />
                 <div className="flex gap-2">
-                  <button onClick={handleCreate} disabled={!title.trim()} className="btn-primary flex-1">
-                    Create Case
+                  <button onClick={handleCreate} disabled={!title.trim() || modelLoading} className="btn-primary flex-1">
+                    {modelLoading ? 'Loading models...' : modelReady ? 'Ready — Create Case' : 'Create Case'}
                   </button>
                   <button onClick={() => setShowNew(false)} className="btn-secondary">
                     Cancel
