@@ -163,3 +163,37 @@ export async function executeLocally(task: ComputeTask): Promise<string> {
 export function clearCompletedTasks(): void {
   computeTasks = computeTasks.filter((t) => t.status !== 'completed');
 }
+
+/**
+ * Start this device as a QVAC compute provider.
+ *
+ * In production, this registers the device with Hyperswarm so other
+ * devices can discover it and delegate compute tasks.
+ *
+ * DEMO MODE: Logs the provider registration. Real implementation
+ * requires Hyperswarm integration and QVAC provider API support.
+ */
+export async function startQVACProvider(options?: {
+  allowedKeys?: string[];
+  maxConcurrent?: number;
+}): Promise<{ publicKey: string; status: string }> {
+  // In production:
+  // return await qvac.startProvider({
+  //   firewall: { allowedKeys: options?.allowedKeys ?? [] },
+  //   maxConcurrent: options?.maxConcurrent ?? 2,
+  // });
+
+  console.warn('startQVACProvider: demo mode — provider registration simulated');
+  return {
+    publicKey: `ed25519:${uuid().replace(/-/g, '').slice(0, 32)}`,
+    status: 'registered (demo mode)',
+  };
+}
+
+/**
+ * Stop the QVAC compute provider.
+ */
+export async function stopQVACProvider(): Promise<void> {
+  // In production: await qvac.stopProvider();
+  console.warn('stopQVACProvider: demo mode — provider stopped (simulated)');
+}

@@ -201,11 +201,11 @@ function deserializePack(
 export async function shareKnowledgePack(
   pack: KnowledgePack,
   peerId: string
-): Promise<{ success: boolean; message: string; bytesTransferred: number }> {
+): Promise<{ success: boolean; message: string; bytesTransferred: number; simulated: boolean }> {
   const peer = discoveredPeers.find((p) => p.id === peerId);
-  if (!peer) return { success: false, message: 'Peer not found', bytesTransferred: 0 };
+  if (!peer) return { success: false, message: 'Peer not found', bytesTransferred: 0, simulated: false };
   if (peer.status !== 'available')
-    return { success: false, message: 'Peer is not available', bytesTransferred: 0 };
+    return { success: false, message: 'Peer is not available', bytesTransferred: 0, simulated: false };
 
   // Serialize the pack using the real wire format
   const { header, chunks } = serializePack(pack);
@@ -235,6 +235,7 @@ export async function shareKnowledgePack(
       success: true,
       message: `Knowledge pack "${pack.name}" transferred via P2P loopback (${chunks.length} chunks, ${bytesTransferred} bytes)`,
       bytesTransferred,
+      simulated: false,
     };
   }
 
@@ -255,6 +256,7 @@ export async function shareKnowledgePack(
     success: true,
     message: `Knowledge pack "${pack.name}" sent to ${peer.name} (${chunks.length} chunks, ${bytesTransferred} bytes) — simulated transfer (requires Hyperswarm for real P2P)`,
     bytesTransferred,
+    simulated: true,
   };
 }
 
