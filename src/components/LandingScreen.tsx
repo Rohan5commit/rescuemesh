@@ -16,14 +16,13 @@ export function LandingScreen() {
     try {
       await loadDemoPacks();
       setModelReady(true);
-      createCase(title, desc);
     } catch (err) {
       console.error('Failed to load knowledge packs:', err);
-      // Still create the case even if packs fail to load
-      createCase(title, desc);
     } finally {
       setModelLoading(false);
     }
+    // Always create the case, even if demo packs failed to load
+    createCase(title, desc);
   };
 
   const features = [
