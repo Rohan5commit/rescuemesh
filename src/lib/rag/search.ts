@@ -1,81 +1,117 @@
-// Local RAG Search & Retrieval
-import { ragSearch } from '@qvac/sdk';
-import { initLLM } from '../qvac';
+// RAG Search — Knowledge packs + Case inputs via QVAC ragSearch
+//
+// Both knowledge packs AND case inputs are ingested into QVAC workspaces
+// and searched via ragSearch(). This means:
+//   - User notes like "structural collapse on east wing" will match queries
+//     like "what are the hazards in the building" via semantic similarity
+//   - No keyword matching needed — QVAC embeddings handle this natively
+
+import { loadModel, ragSearch } from '@qvac/sdk';
+import { LLM_MODEL } from '../qvac/models';
 import type { RetrievedEvidence } from '../schemas';
 import { v4 as uuid } from 'uuid';
 
-const WORKSPACE_DIR = 'rescuemesh-rag';
-
-export interface SearchOptions {
-  packId?: string;
+type SearchOptions = {
   topK?: number;
   minSimilarity?: number;
-}
+};
 
+/**
+ * Search the knowledge RAG workspace (rescuemesh-rag/packs/*)
+ * for relevant evidence from ingested knowledge packs.
+ */
 export async function searchKnowledge(
   query: string,
   options?: SearchOptions
 ): Promise<RetrievedEvidence[]> {
-  const modelId = await initLLM();
+  const modelId = await loadModel({ modelSrc: LLM_MODEL, modelType: 'llm' });
   const topK = options?.topK ?? 5;
-  const workspace = options?.packId
-    ? `${WORKSPACE_DIR}/${options.packId}`
-    : WORKSPACE_DIR;
 
   const results = await ragSearch({
     modelId,
-    workspace,
+    workspace: 'rescuemesh-rag',
     query,
     topK,
   });
 
-  return results.hits
-    .filter((h) => !options?.minSimilarity || h.score >= options.minSimilarity)
-    .map((hit) => ({
+  return results
+    .filter((r) => !options?.minSimilarity || r.score >= options.minSimilarity)
+    .map((r) => ({
       id: uuid(),
-      content: hit.text,
-      source: 'knowledge_pack' as const,
-      documentName: hit.metadata?.documentName ?? 'Unknown',
-      documentId: hit.metadata?.documentId,
-      chunkIndex: hit.metadata?.chunkIndex,
-      similarity: hit.score,
-      excerpt: hit.text.slice(0, 200),
+      documentId: r.metadata?.documentId ?? 'unknown',
+      chunkIndex: r.metadata?.chunkIndex ?? 0,
+      content: r.text,
+      source: r.metadata?.source ?? 'knowledge-pack',
+      score: r.score,
     }));
 }
 
-export async function searchCaseAndKnowledge(
+/**
+ * Search case inputs via QVAC ragSearch on the per-case workspace.
+ *
+ * Case inputs are ingested into 'rescuemesh-rag/cases/{caseId}' whenever
+ * a new input is added. This uses the SAME QVAC ragSearch pipeline as
+ * knowledge packs — no keyword matching, pure semantic similarity.
+ *
+ * For example, a user note "structural collapse on east wing" will
+ * semantically match a query like "what are the hazards in the building"
+ * because QVAC embeddings capture meaning, not just exact words.
+ */
+export async function searchCaseInputs(
   query: string,
-  caseInputs: Array<{ content: string; id: string }>,
+  caseId: string,
   options?: SearchOptions
 ): Promise<RetrievedEvidence[]> {
-  // Search knowledge packs
-  const knowledgeResults = await searchKnowledge(query, options);
+  const modelId = await loadModel({ modelSrc: LLM_MODEL, modelType: 'llm' });
+  const topK = options?.topK ?? 5;
 
-  // Simple local case input matching (keyword-based since case data is local)
-  const queryLower = query.toLowerCase();
-  const queryWords = queryLower.split(/\s+/).filter((w) => w.length > 2);
+  try {
+    const results = await ragSearch({
+      modelId,
+      workspace: `rescuemesh-rag/cases/${caseId}`,
+      query,
+      topK,
+    });
 
-  const caseResults: RetrievedEvidence[] = caseInputs
-    .map((input) => {
-      const contentLower = input.content.toLowerCase();
-      const matchCount = queryWords.filter((w) => contentLower.includes(w)).length;
-      const similarity = queryWords.length > 0 ? matchCount / queryWords.length : 0;
-      return {
+    return results
+      .filter((r) => !options?.minSimilarity || r.score >= options.minSimilarity)
+      .map((r) => ({
         id: uuid(),
-        content: input.content,
-        source: 'case_input' as const,
-        similarity,
-        excerpt: input.content.slice(0, 200),
-        caseInputId: input.id,
-      };
-    })
-    .filter((r) => r.similarity > 0.2)
-    .sort((a, b) => b.similarity - a.similarity);
+        documentId: r.metadata?.documentId ?? 'unknown',
+        chunkIndex: r.metadata?.chunkIndex ?? 0,
+        content: r.text,
+        source: 'case-input',
+        score: r.score,
+      }));
+  } catch {
+    // Case workspace may not exist yet (no inputs ingested)
+    return [];
+  }
+}
 
-  // Merge and rank
-  const all = [...knowledgeResults, ...caseResults]
-    .sort((a, b) => b.similarity - a.similarity)
-    .slice(0, options?.topK ?? 8);
+/**
+ * Search both knowledge packs AND case inputs.
+ *
+ * Both sources use QVAC ragSearch — no keyword fallback.
+ * Results from both workspaces are merged and ranked by score.
+ */
+export async function searchCaseAndKnowledge(
+  query: string,
+  caseInputs: Array<{ id: string; content: string }>,
+  options?: SearchOptions
+): Promise<RetrievedEvidence[]> {
+  const topK = options?.topK ?? 5;
 
-  return all;
+  // Search knowledge packs (existing)
+  const knowledgeResults = await searchKnowledge(query, { topK });
+
+  // Search case inputs via RAG (NEW — replaces keyword matching)
+  const caseId = caseInputs[0]?.id?.split('-')[0] ?? 'unknown';
+  const caseResults = await searchCaseInputs(query, caseId, { topK });
+
+  // Merge and rank by score
+  const allResults = [...knowledgeResults, ...caseResults];
+  allResults.sort((a, b) => b.score - a.score);
+
+  return allResults.slice(0, topK);
 }

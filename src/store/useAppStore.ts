@@ -18,6 +18,7 @@ import { discoverPeers, getDiscoveredPeers, shareKnowledgePack, getShareHistory 
 import { createComputeTask, delegateTask, executeOnPeer, executeLocally, getComputeTasks } from '../lib/delegated-compute';
 import { generateIncidentReport, generateActionChecklistReport, generateHandoffNote } from '../lib/export/report';
 import type { ComputeTask as CT } from '../lib/schemas';
+import { ingestCaseInput } from '../lib/rag/case-ingest';
 
 type Screen = 'landing' | 'dashboard' | 'intake' | 'action-plan' | 'ask' | 'evidence' | 'p2p' | 'architecture' | 'export';
 
@@ -96,6 +97,17 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (!active) return;
     const updated = CaseStore.updateCase(active.id, updates);
     set({ activeCase: updated, cases: CaseStore.getAllCases() });
+
+    // Auto-ingest new inputs into QVAC RAG workspace for semantic search
+    if (updates.inputs) {
+      const oldIds = new Set(active.inputs.map((i) => i.id));
+      const newInputs = updates.inputs.filter((i) => !oldIds.has(i.id));
+      for (const input of newInputs) {
+        ingestCaseInput(active.id, input).catch((err) =>
+          console.warn('Failed to ingest case input into RAG:', err)
+        );
+      }
+    }
   },
   deleteCase: (id) => {
     CaseStore.deleteCase(id);
